@@ -22,7 +22,7 @@ on:
 
 jobs:
   list-paths:
-    name: List Terraform Modules
+    name: List Paths
     runs-on: ubuntu-latest
     outputs:
       paths: ${{ steps.paths.outputs.directories }}
@@ -66,8 +66,8 @@ jobs:
         
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         queries: security-extended,security-and-quality
-        ram: 24576
-        threads: 8
+        ram: 4096
+        threads: 2
 
         
     # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
