@@ -23,7 +23,7 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-latest
+    runs-on: liatrio-small
     permissions:
       actions: read
       contents: read
@@ -51,6 +51,8 @@ jobs:
         
         # Details on CodeQL's query packs refer to : https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
         queries: security-extended,security-and-quality
+        ram: 12GB
+        threads: 4
 
         
     # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
