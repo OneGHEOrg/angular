@@ -21,9 +21,23 @@ on:
     - cron: '32 4 * * 1'
 
 jobs:
+  list-paths:
+    name: List Terraform Modules
+    runs-on: ubuntu-latest
+    outputs:
+      paths: ${{ steps.paths.outputs.directories }}
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v3.1.0
+
+      - name: List Directories
+        id: paths
+        run: echo "::set-output name=directories::$(find . -type d -maxdepth 1 -not \( -path '.' -o -path '*/[@.]*' \) -prune | sed -e 's,^\./,,' | jq -R -s -c 'split("\n")[:-1]')"
+
   analyze:
     name: Analyze
     runs-on: liatrio-medium
+    needs: [list-paths]
     permissions:
       actions: read
       contents: read
@@ -33,6 +47,7 @@ jobs:
       fail-fast: false
       matrix:
         language: [ 'javascript' ]
+        paths: ${{ fromJson(needs.list-paths.outputs.paths) }}
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
 
